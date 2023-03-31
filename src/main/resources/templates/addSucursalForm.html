@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Sucursal</title>
+</head>
+<body>
+<h1>Agregar Sucursal</h1>
+<form action="/sucursal/add" method="post">
+  <label for="sucursalName">Nombre de la sucursal:</label>
+  <input type="text" id="sucursalName" name="sucursalName" required>
+  <br>
+  <label for="sucursalCountry">País de la sucursal:</label>
+  <input type="text" id="sucursalCountry" name="sucursalCountry" required>
+  <br>
+  <input type="submit" value="Agregar">
+</form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualizar Sucursal</title>
+</head>
+<body>
+<h1>Actualizar Sucursal</h1>
+<form action="/sucursal/update" method="post">
+  <input type="hidden" id="pk_SucursalID" name="pk_SucursalID" value="${sucursal.pk_SucursalID}">
+  <label for="sucursalName">Nombre de la sucursal:</label>
+  <input type="text" id="sucursalName" name="sucursalName" value="${sucursal.sucursalName}" required>
+  <br>
+  <label for="sucursalCountry">País de la sucursal:</label>
+  <input type="text" id="sucursalCountry" name="sucursalCountry" value="${sucursal.sucursalCountry}" required>
+  <br>
+  <input type="submit" value="Actualizar">
+</form>
+</body>
+</html>
