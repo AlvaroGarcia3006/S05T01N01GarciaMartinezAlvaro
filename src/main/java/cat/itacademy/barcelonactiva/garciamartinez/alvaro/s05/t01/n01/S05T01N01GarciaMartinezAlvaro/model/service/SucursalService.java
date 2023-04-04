@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SucursalService {
+public class SucursalService implements SucursalServiceinterface{
     @Autowired
     private SucursalRepository sucursalRepository;
     public SucursalDTO save(SucursalDTO sucursalDTO) {

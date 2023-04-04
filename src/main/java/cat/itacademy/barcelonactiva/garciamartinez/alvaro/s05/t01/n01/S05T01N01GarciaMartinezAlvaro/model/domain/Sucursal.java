@@ -3,14 +3,15 @@ package cat.itacademy.barcelonactiva.garciamartinez.alvaro.s05.t01.n01.S05T01N01
 import javax.persistence.*;
 
 @Entity
+@Table(name = "sucursal")
 public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pk_sucursalid")
+    @Column(name = "id")
     private Integer pk_SucursalID;
-    @Column(name = "sucursalName")
+    @Column(name = "name")
     private String sucursalName;
-    @Column(name = "sucursalCountry")
+    @Column(name = "country")
     private String sucursalCountry;
 
     public Integer getPk_SucursalID() {

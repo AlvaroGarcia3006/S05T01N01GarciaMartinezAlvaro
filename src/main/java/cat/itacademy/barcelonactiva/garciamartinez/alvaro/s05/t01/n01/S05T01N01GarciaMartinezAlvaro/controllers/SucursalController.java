@@ -1,8 +1,12 @@
 package cat.itacademy.barcelonactiva.garciamartinez.alvaro.s05.t01.n01.S05T01N01GarciaMartinezAlvaro.controllers;
 
+import cat.itacademy.barcelonactiva.garciamartinez.alvaro.s05.t01.n01.S05T01N01GarciaMartinezAlvaro.model.domain.Sucursal;
 import cat.itacademy.barcelonactiva.garciamartinez.alvaro.s05.t01.n01.S05T01N01GarciaMartinezAlvaro.model.dto.SucursalDTO;
 import cat.itacademy.barcelonactiva.garciamartinez.alvaro.s05.t01.n01.S05T01N01GarciaMartinezAlvaro.model.service.SucursalService;
+import cat.itacademy.barcelonactiva.garciamartinez.alvaro.s05.t01.n01.S05T01N01GarciaMartinezAlvaro.model.service.SucursalServiceinterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +17,7 @@ import java.util.Optional;
 @RequestMapping("/sucursal")
 public class SucursalController {
     @Autowired
-    private SucursalService sucursalService;
+    private SucursalServiceinterface sucursalService;
 
     @PostMapping("/add")
     public String addSucursal(@ModelAttribute SucursalDTO sucursalDTO) {
@@ -25,18 +29,24 @@ public class SucursalController {
         model.addAttribute("sucursal", new SucursalDTO());
         return "addSucursalForm";
     }
-    @PostMapping("/update")
-    public String updateSucursal(@ModelAttribute SucursalDTO sucursalDTO) {
-        sucursalService.update(sucursalDTO);
-        return "redirect:/sucursal/getAll";
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SucursalDTO> update(@PathVariable("id") long id, @RequestBody SucursalDTO sucursalDTO) {
+        if (id != sucursalDTO.getPk_SucursalID()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        SucursalDTO updtSucursal = sucursalService.update(sucursalDTO);
+        if (updtSucursal == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(updtSucursal, HttpStatus.OK);
     }
     @GetMapping("/update/{id}")
     public String showUpdateSucursalForm(@PathVariable("id") Integer id, Model model) {
         Optional<SucursalDTO> sucursalDTO = sucursalService.getOne(id);
-        model.addAttribute("sucursal", sucursalDTO.orElse(null));
+        model.addAttribute("sucursal", sucursalDTO);
         return "updateSucursalForm";
     }
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteSucursal(@PathVariable("id") Integer id) {
         sucursalService.delete(id);
         return "redirect:/sucursal/getAll";
@@ -47,9 +57,10 @@ public class SucursalController {
         model.addAttribute("sucursal", sucursalDTO.orElse(null));
         return "sucursal";
     }
-    @GetMapping("/getAll")
+    @GetMapping({"/", "/getAll"})
     public String getAllSucursales(Model model) {
         model.addAttribute("sucursales", sucursalService.getAll());
+        model.addAttribute("sucursal", new SucursalDTO());
         return "sucursales";
     }
 }
